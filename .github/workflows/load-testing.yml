@@ -1,0 +1,98 @@
+name: Load testing
+
+on:
+  workflow_dispatch:
+    inputs:
+      TEST:
+        description: 'K6 test to run'
+        required: true
+        type: choice
+        options:
+          - breakpoint
+          - load
+          - rate-limit
+          - smoke
+          - soak
+          - spike
+          - stress
+      PARALLEL:
+        description: 'Run tests in parallel'
+        required: false
+        type: boolean
+        default: false
+      VUS:
+        description: 'Concurrent virtual users'
+        required: true
+        type: number
+        default: 1
+      DURATION:
+        description: 'Test duration'
+        required: true
+        type: string
+        default: '10s'
+      CLOUD_RUN_LOCALLY:
+        description: 'Run tests locally instead of Grafana Cloud'
+        required: false
+        type: boolean
+        default: true
+      FAIL_FAST:
+        description: 'Stop when the first test fails'
+        required: false
+        type: boolean
+        default: true
+      DEBUG:
+        description: 'Show detailed output in the logs'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  k6:
+    name: ${{ inputs.TEST }} test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup K6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Run ${{ inputs.TEST }} test
+        uses: grafana/run-k6-action@v1
+        env:
+          BASE_URL: ${{ vars.BASE_URL }}
+          K6_WEB_DASHBOARD_EXPORT: ${{ inputs.TEST }}-test-report.html
+        with:
+          cloud-run-locally: ${{ inputs.CLOUD_RUN_LOCALLY }}
+          fail-fast: ${{ inputs.FAIL_FAST }}
+          debug: ${{ inputs.DEBUG }}
+          disable-analytics: true
+          flags: --vus ${{ inputs.VUS }} --duration ${{ inputs.DURATION }} --out json=results.json
+          parallel: ${{ inputs.PARALLEL }}
+          path: tests/load/src/${{ inputs.TEST }}-test.ts
+
+      - name: Upload Results
+        id: upload-results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ inputs.TEST }}-report
+          path: results.json
+
+      - name: Add report to job summary
+        if: always()
+        env:
+          ARTIFACT_URL: ${{ steps.upload-results.outputs.artifact-url }}
+        run: |
+          {
+            echo "## ${{ inputs.TEST }} test"
+            echo
+            echo 'The complete output is available in the **Run k6 test** step log.'
+            echo
+            if [ -n "$ARTIFACT_URL" ]; then
+              echo "[Download JSON report]($ARTIFACT_URL)"
+            else
+              echo 'The JSON report artifact was not created.'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

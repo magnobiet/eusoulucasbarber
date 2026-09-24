@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "test:smoke": "K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=reports/smoke-test-report.html k6 run --out csv=reports/smoke-test-results.csv src/smoke-test.ts",
+    "test:load": "K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=reports/load-test-report.html k6 run --out csv=reports/load-test-results.csv src/load-test.ts",
+    "test:stress": "K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=reports/stress-test-report.html k6 run --out csv=reports/stress-test-results.csv src/stress-test.ts",
+    "test:spike": "K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=reports/spike-test-report.html k6 run --out csv=reports/spike-test-results.csv src/spike-test.ts",
+    "test:breakpoint": "K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=reports/breakpoint-test-report.html k6 run --out csv=reports/breakpoint-test-results.csv src/breakpoint-test.ts",
+    "test:soak": "K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=reports/soak-test-report.html k6 run --out csv=reports/soak-test-results.csv src/soak-test.ts",
+    "test:rate-limit": "K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=reports/rate-limit-test-report.html k6 run --out csv=reports/rate-limit-test-results.csv src/rate-limit-test.ts",
+    "cleanup": "rm -rf reports/*.{csv,json,html}"
+  },
+  "devDependencies": {
+    "@tsconfig/node22": "^22.0.6",
+    "@types/k6": "^2.2.0",
+    "typescript": "^6.0.3"
+  }
+}

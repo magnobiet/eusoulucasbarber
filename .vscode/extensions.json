@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "formulahendry.auto-close-tag",
+    "formulahendry.auto-complete-tag",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "orta.vscode-jest",
+    "ms-playwright.playwright",
+    "nextnav.nextnav",
+    "bradlc.vscode-tailwindcss",
+    "csstools.postcss",
+    "editorconfig.editorconfig",
+    "mikestead.dotenv"
+  ]
+}
