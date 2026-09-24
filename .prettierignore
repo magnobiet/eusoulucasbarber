@@ -1,0 +1,9 @@
+pnpm-lock.yaml
+pnpm-workspace.yaml
+.git
+.next
+.swc
+node_modules
+coverage
+certificates
+public

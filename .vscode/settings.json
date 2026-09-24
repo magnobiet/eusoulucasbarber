@@ -1,0 +1,22 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "README.md": "ARCHITECTURE.md, AGENTS.md, CLAUDE.md, LICENSE",
+    "Dockerfile": ".dockerignore, compose.yaml",
+    "package.json": "pnpm*.yaml, *lock.json, .nvmrc, .npmrc, .node-version",
+    "tsconfig.json": "tsconfig*, next-env.d.ts",
+    "next.config.ts": ".env*",
+    ".env": ".env*",
+    "jest.config.*": "jest.*",
+    "prettier.config.*": ".prettier*, prettier*",
+    "layout.tsx": "*.css, favicon.ico"
+  },
+  "editor.showUnused": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "tailwindCSS.classFunctions": ["cva", "cx"]
+}
