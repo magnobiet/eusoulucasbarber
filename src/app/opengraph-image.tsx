@@ -16,10 +16,10 @@ export const contentType = 'image/png';
 
 export default async function Image(): Promise<ImageResponse> {
   const fonts = await getOpenGraphFonts({
-    fontName: 'Inter',
+    fontName: 'Outfit',
     variants: [
-      { fileName: 'inter-regular.ttf', weight: 400, style: 'normal' },
-      { fileName: 'inter-bold.ttf', weight: 700, style: 'normal' },
+      { fileName: 'outfit-400.ttf', weight: 400, style: 'normal' },
+      { fileName: 'outfit-700.ttf', weight: 700, style: 'normal' },
     ],
   });
 

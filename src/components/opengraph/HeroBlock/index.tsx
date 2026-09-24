@@ -12,7 +12,7 @@ export function HeroBlock({
           fontWeight: 700,
           maxWidth: 820,
           color: context.colors.text,
-          fontFamily: 'Inter',
+          fontFamily: 'Outfit',
         }}
       >
         {context.title}
@@ -24,7 +24,7 @@ export function HeroBlock({
           color: context.colors.muted,
           maxWidth: 760,
           fontWeight: 400,
-          fontFamily: 'Inter',
+          fontFamily: 'Outfit',
         }}
       >
         {context.subtitle}

@@ -1,6 +1,6 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_123_30)">
-<path d="M512 0H0V512H512V0Z" fill="#16181D"/>
+<path d="M512 0H0V512H512V0Z" fill="#140f0c"/>
 <mask id="mask0_123_30" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="156" y="106" width="199" height="300">
 <path d="M355 106H156V406H355V106Z" fill="white"/>
 </mask>

@@ -27,24 +27,24 @@ async function generateFavicons(): Promise<void> {
   iconSettings.desktop.regularIconTransformation = {
     ...iconSettings.desktop.regularIconTransformation,
     type: IconTransformationType.Background,
-    backgroundColor: config.theme.foreground,
+    backgroundColor: config.favicon.background,
     backgroundRadius: 0.8,
     imageScale: 0.8,
   };
 
   iconSettings.webAppManifest = {
     ...iconSettings.webAppManifest,
-    backgroundColor: config.theme.foreground,
-    themeColor: config.theme.foreground,
+    backgroundColor: config.favicon.background,
+    themeColor: config.favicon.background,
     name: config.pageTitle,
     shortName: config.shortTitle,
   };
 
   const faviconSettings: FaviconSettings = {
     icon: iconSettings,
-    path: '/?utm_source=pwa',
+    path: '/',
     skipMetadataInjection: false,
-    version: new Date().toISOString(),
+    version: Date.now().toString(),
   };
 
   const files = await generateFaviconFiles(

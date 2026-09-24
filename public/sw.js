@@ -1,4 +1,7 @@
-const CACHE_NAME = 'template-nextjs-_HASH_';
+/* eslint-disable sonarjs/no-invariant-returns, unicorn/prefer-await, unicorn/no-unnecessary-global-this */
+
+const CACHE_NAME = 'eusoulucasbarber-_HASH_';
+
 const urlsToCache = [
   '/',
   '/apple-touch-icon.png',
@@ -9,6 +12,12 @@ const urlsToCache = [
   '/web-app-manifest-512x512.png'
 ];
 
+globalThis.addEventListener('message', (event) => {
+  if (event.data?.type === 'SKIP_WAITING') {
+    globalThis.skipWaiting();
+  }
+});
+
 globalThis.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -18,27 +27,27 @@ globalThis.addEventListener('install', (event) => {
 });
 
 globalThis.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) {
+  const { request } = event;
+
+  if (request.method !== 'GET' || !request.url.startsWith('http')) {
+    return;
+  }
+
+  event.respondWith(caches.match(request).then((response) => {
+    return response || fetch(request).then((response) => {
+      if (!response || response.status !== 200 || response.type !== 'basic') {
         return response;
       }
 
-      return fetch(event.request).then((response) => {
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-          return response;
-        }
+      const responseToCache = response.clone();
 
-        const responseToCache = response.clone();
-
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
-
-        return response;
+      caches.open(CACHE_NAME).then((cache) => {
+        cache.put(request, responseToCache);
       });
-    })
-  );
+
+      return response;
+    });
+  }));
 });
 
 globalThis.addEventListener('activate', (event) => {
@@ -46,13 +55,11 @@ globalThis.addEventListener('activate', (event) => {
 
   event.waitUntil(
     caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (!cacheWhitelist.has(cacheName)) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
+      return Promise.all(cacheNames.map((cacheName) => {
+        if (!cacheWhitelist.has(cacheName)) {
+          return caches.delete(cacheName);
+        }
+      }));
+    }).then(() => globalThis.clients.claim()),
   );
 });

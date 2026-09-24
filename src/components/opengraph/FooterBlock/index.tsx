@@ -17,7 +17,7 @@ export function FooterBlock({
         style={{
           color: context.colors.muted,
           fontSize: 18,
-          fontFamily: 'Inter',
+          fontFamily: 'Outfit',
         }}
       >
         {context.footer}

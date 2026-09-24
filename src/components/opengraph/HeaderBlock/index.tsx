@@ -24,7 +24,7 @@ export function HeaderBlock({
           fontWeight: 700,
           padding: '8px 18px',
           textTransform: 'uppercase',
-          fontFamily: 'Inter',
+          fontFamily: 'Outfit',
         }}
       >
         {context.eyebrow}

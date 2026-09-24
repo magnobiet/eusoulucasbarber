@@ -1,27 +1,38 @@
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono as GeistMono } from 'next/font/google';
+import {
+  JetBrains_Mono as JetBrainsMono,
+  Outfit,
+  Plus_Jakarta_Sans as PlusJakartaSans,
+} from 'next/font/google';
 import type { ReactElement, ReactNode } from 'react';
 import { Toaster } from 'sonner';
 import { ServiceWorkerRegistration } from '~/components';
+import { Footer, Header } from '~/components/layout';
 import { environment } from '~/environment';
 import { config } from '../../config/config';
 import './globals.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const plusJakartaSans = PlusJakartaSans({
+  variable: '--font-plus-jakarta-sans',
   subsets: ['latin'],
 });
 
-const geistMono = GeistMono({
-  variable: '--font-geist-mono',
+const outfit = Outfit({
+  variable: '--font-outfit',
+  subsets: ['latin'],
+});
+
+const jetBrainsMono = JetBrainsMono({
+  variable: '--font-jetbrains-mono',
   subsets: ['latin'],
 });
 
 const { pageTitle, description, language } = config;
 
 export const metadata: Metadata = {
+  metadataBase: new URL(environment.BASE_URL),
   title: pageTitle,
   description,
 };
@@ -32,10 +43,18 @@ export default function RootLayout({
   return (
     <html
       lang={language}
-      className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
+      className={`${plusJakartaSans.variable} ${outfit.variable} ${jetBrainsMono.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="min-h-screen font-sans">
-        {children}
+      <body className="bg-coffee-950 text-cream selection:bg-brand-cognac/30 min-h-full font-sans selection:text-white">
+        <div className="border-coffee-700/60 bg-coffee-900 warm-glow relative mx-auto flex min-h-screen w-full flex-col items-center border-x px-5 pt-6 pb-10">
+          <div className="max-w-md">
+            <Header />
+
+            {children}
+
+            <Footer />
+          </div>
+        </div>
 
         <Toaster />
 

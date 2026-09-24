@@ -4,7 +4,9 @@ import NextError from 'next/error';
 import { type ReactElement } from 'react';
 import { config } from '~/config';
 
-export default function GlobalError({ }: Readonly<{ error: Error & { digest?: string } }>): ReactElement {
+export default function GlobalError({}: Readonly<{
+  error: Error & { digest?: string };
+}>): ReactElement {
   return (
     <html lang={config.language}>
       <body>

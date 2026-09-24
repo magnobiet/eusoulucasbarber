@@ -90,6 +90,38 @@ const AddressSchema = z.object({
   coordinates: CoordinatesSchema,
 });
 
+const PhoneTypeSchema = z.enum([
+  'pref',
+  'work',
+  'home',
+  'voice',
+  'fax',
+  'msg',
+  'cell',
+  'pager',
+  'bbs',
+  'car',
+  'modem',
+  'isdn',
+  'video',
+]);
+
+const VCardSchema = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+  fullName: z.string(),
+  organization: z.string(),
+  title: z.string(),
+  phone: z.string(),
+  phoneType: z.array(PhoneTypeSchema).default(['cell', 'voice']),
+  street: z.string(),
+  city: z.string(),
+  region: z.string(),
+  country: z.string(),
+  url: z.url(),
+  note: z.string(),
+});
+
 const OpenGraphSchema = z.object({
   eyebrow: z.string().optional(),
   title: z.string(),
@@ -125,6 +157,7 @@ export const ConfigSchema = z.object({
   theme: ThemeSchema,
   contact: ContactSchema.optional(),
   address: AddressSchema.optional(),
+  vcard: VCardSchema,
   opengraph: OpenGraphSchema,
   favicon: FaviconSchema,
 });

@@ -1,6 +1,5 @@
-/* eslint-disable camelcase */
 import type { MetadataRoute } from 'next';
-import { config } from '../../config';
+import { config } from '../config';
 
 const { pageTitle, shortTitle, description, theme } = config;
 
