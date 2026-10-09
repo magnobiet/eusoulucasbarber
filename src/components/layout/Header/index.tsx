@@ -9,6 +9,7 @@ export function Header(): ReactElement {
     >
       <div className="text-brand-cognac flex size-8 items-center justify-center">
         <svg
+          aria-hidden
           className="h-full w-full"
           fill="none"
           viewBox="0 0 199 300"

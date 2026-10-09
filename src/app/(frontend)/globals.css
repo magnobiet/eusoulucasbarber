@@ -3,24 +3,24 @@
 @import 'shadcn/tailwind.css';
 
 :root {
-  --background: #140f0c;
-  --foreground: #f1ede8;
-  --card: #1a1410;
-  --card-foreground: #f1ede8;
-  --popover: #1a1410;
-  --popover-foreground: #f1ede8;
-  --primary: #c37c33;
-  --primary-foreground: #ffffff;
-  --secondary: #221b16;
-  --secondary-foreground: #f1ede8;
-  --muted: #2a221c;
-  --muted-foreground: #9c8e82;
-  --accent: rgba(195, 124, 51, 0.15);
-  --accent-foreground: #f1ede8;
+  --background: var(--color-coffee-950);
+  --foreground: var(--color-cream);
+  --card: var(--color-coffee-900);
+  --card-foreground: var(--color-cream);
+  --popover: var(--color-coffee-900);
+  --popover-foreground: var(--color-cream);
+  --primary: var(--color-brand-cognac);
+  --primary-foreground: var(--color-coffee-950);
+  --secondary: var(--color-coffee-850);
+  --secondary-foreground: var(--color-cream);
+  --muted: var(--color-coffee-800);
+  --muted-foreground: var(--color-cream-dim);
+  --accent: --alpha(var(--color-brand-cognac) / 15%);
+  --accent-foreground: var(--color-cream);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: rgba(56, 46, 38, 1);
-  --input: #382e26;
-  --ring: #c37c33;
+  --border: var(--color-coffee-700);
+  --input: var(--color-coffee-700);
+  --ring: var(--color-brand-cognac);
   --radius: 0.625rem;
 }
 
@@ -58,11 +58,10 @@
   --color-cream-subtle: #b3a69a;
   --color-cream-dim: #9c8e82;
   --color-cream-highlight: #ffdcc0;
-  --color-cognac-glow: rgba(195, 124, 51, 0.18);
+  --color-cognac-glow: --alpha(var(--color-brand-cognac) / 18%);
 
   --font-sans: var(--font-plus-jakarta-sans);
   --font-heading: var(--font-outfit);
-  --font-mono: var(--font-jetbrains-mono);
 
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -72,22 +71,28 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
+  --shadow-glow: 0 10px 24px -6px --alpha(var(--color-brand-cognac) / 40%);
+  --shadow-glow-strong: 0 12px 28px -4px
+    --alpha(var(--color-brand-cognac) / 55%);
+  --shadow-lift: 0 8px 20px -6px --alpha(var(--color-black) / 50%);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
   --animate-halo-pulse: halo-pulse 4.5s ease-in-out infinite;
   --animate-light-sweep: light-sweep 4s ease-in-out infinite;
   --animate-radar-ping: radar-ping 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;
-  --animate-reveal-up: reveal-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-reveal-up: reveal-up 0.5s var(--ease-out-expo) backwards;
+  --animate-lamp-on: lamp-on 1.4s var(--ease-out-expo) backwards;
   @keyframes halo-pulse {
     0%,
     100% {
       transform: scale(1);
       opacity: 0.65;
-      filter: blur(14px);
     }
 
     50% {
       transform: scale(1.15);
       opacity: 0.95;
-      filter: blur(20px);
     }
   }
 
@@ -115,10 +120,17 @@
     }
   }
 
+  @keyframes lamp-on {
+    from {
+      opacity: 0;
+      transform: scale(0.85);
+    }
+  }
+
   @keyframes reveal-up {
     from {
       opacity: 0;
-      transform: translateY(18px);
+      transform: translateY(12px);
     }
 
     to {
@@ -129,30 +141,53 @@
 }
 
 @utility warm-glow {
-  background: radial-gradient(
-    circle at 50% 12%,
-    rgba(195, 124, 51, 0.18) 0%,
-    rgba(20, 15, 12, 0) 70%
-  );
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at 50% 12%,
+      var(--color-cognac-glow) 0%,
+      transparent 70%
+    );
+    transform-origin: 50% 12%;
+    animation: var(--animate-lamp-on);
+    pointer-events: none;
+  }
 }
 
 @utility card-coffee {
-  background: linear-gradient(145deg, #241c16 0%, #1c1511 100%);
-  border: 1px solid rgba(195, 124, 51, 0.2);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: linear-gradient(
+    145deg,
+    var(--color-coffee-850) 0%,
+    var(--color-coffee-900) 100%
+  );
+  border: 1px solid --alpha(var(--color-brand-cognac) / 20%);
+  transition:
+    border-color 0.3s var(--ease-out-expo),
+    transform 0.3s var(--ease-out-expo),
+    box-shadow 0.3s var(--ease-out-expo);
 
   @variant hover {
-    border-color: rgba(195, 124, 51, 0.55);
-    background: linear-gradient(145deg, #2a2019 0%, #201813 100%);
+    border-color: --alpha(var(--color-brand-cognac) / 55%);
+    background: linear-gradient(
+      145deg,
+      var(--color-coffee-800) 0%,
+      var(--color-coffee-850) 100%
+    );
     transform: translateY(-1.5px);
-    box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-lift);
   }
 
   @variant focus-visible {
-    border-color: rgba(195, 124, 51, 0.55);
-    background: linear-gradient(145deg, #2a2019 0%, #201813 100%);
+    border-color: --alpha(var(--color-brand-cognac) / 55%);
+    background: linear-gradient(
+      145deg,
+      var(--color-coffee-800) 0%,
+      var(--color-coffee-850) 100%
+    );
     transform: translateY(-1.5px);
-    box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-lift);
   }
 
   @variant active {
@@ -161,14 +196,18 @@
 }
 
 @utility cognac-action {
-  background-color: #c37c33;
-  box-shadow: 0 10px 24px -6px rgba(195, 124, 51, 0.4);
+  background-color: var(--color-brand-cognac);
+  box-shadow: var(--shadow-glow);
   position: relative;
   overflow: hidden;
 
   @variant hover {
-    box-shadow: 0 12px 28px -4px rgba(195, 124, 51, 0.55);
-    background-color: #cd853b;
+    box-shadow: var(--shadow-glow-strong);
+    background-color: color-mix(
+      in srgb,
+      var(--color-brand-cognac),
+      var(--color-brand-light)
+    );
   }
 
   @variant active {
@@ -185,7 +224,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.22),
+    --alpha(var(--color-white) / 22%),
     transparent
   );
   animation: var(--animate-light-sweep);
@@ -193,6 +232,7 @@
 }
 
 @utility avatar-halo {
+  filter: blur(16px);
   animation: var(--animate-halo-pulse);
 }
 
@@ -200,60 +240,58 @@
   position: absolute;
   inset: -2px;
   border-radius: 9999px;
-  border: 1.5px solid #c37c33;
+  border: 1.5px solid var(--color-brand-cognac);
   animation: var(--animate-radar-ping);
   pointer-events: none;
 }
 
 @utility specialty-pill {
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    background-color 0.25s var(--ease-out-expo),
+    border-color 0.25s var(--ease-out-expo),
+    transform 0.25s var(--ease-out-expo);
 
   @variant hover {
-    background-color: #2e241c;
-    border-color: rgba(195, 124, 51, 0.45);
+    background-color: var(--color-coffee-800);
+    border-color: --alpha(var(--color-brand-cognac) / 45%);
     transform: translateY(-1px);
-  }
-
-  @variant active {
-    transform: scale(0.96);
   }
 }
 
 @utility stagger-item {
-  opacity: 0;
   animation: var(--animate-reveal-up);
 }
 
 @utility delay-1 {
-  animation-delay: 0.05s;
+  animation-delay: 0s;
 }
 
 @utility delay-2 {
-  animation-delay: 0.15s;
+  animation-delay: 0.04s;
 }
 
 @utility delay-3 {
-  animation-delay: 0.25s;
+  animation-delay: 0.08s;
 }
 
 @utility delay-4 {
-  animation-delay: 0.35s;
+  animation-delay: 0.12s;
 }
 
 @utility delay-5 {
-  animation-delay: 0.45s;
+  animation-delay: 0.16s;
 }
 
 @utility delay-6 {
-  animation-delay: 0.55s;
+  animation-delay: 0.2s;
 }
 
 @utility delay-7 {
-  animation-delay: 0.65s;
+  animation-delay: 0.24s;
 }
 
 @utility delay-8 {
-  animation-delay: 0.75s;
+  animation-delay: 0.28s;
 }
 
 @layer base {
@@ -267,6 +305,12 @@
 
   html {
     @apply font-sans;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
   }
 }
 
@@ -279,9 +323,9 @@
     transition-duration: 0.001ms;
   }
 
-  .stagger-item {
-    opacity: 1;
-    transform: none;
+  .stagger-item,
+  .warm-glow::before {
+    animation: none;
   }
 
   .shimmer-beam,

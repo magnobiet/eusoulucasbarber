@@ -1,10 +1,11 @@
 import { Clock } from 'lucide-react';
 import type { ReactElement } from 'react';
+import { config } from '~/config';
 
 export function OperatingHours(): ReactElement {
   return (
     <section
-      className="stagger-item mb-6 w-full delay-7"
+      className="stagger-item mb-8 w-full delay-7"
       data-purpose="hours-card"
     >
       <div className="card-coffee flex flex-col gap-2 rounded-xl p-4">
@@ -16,8 +17,8 @@ export function OperatingHours(): ReactElement {
             </h3>
           </div>
         </div>
-        <p className="text-cream mt-0.5 text-xs font-medium">
-          Segunda a Sábado das 09h às 20h
+        <p className="text-cream mt-0.5 text-sm font-medium">
+          {config.openingHours}
         </p>
       </div>
     </section>

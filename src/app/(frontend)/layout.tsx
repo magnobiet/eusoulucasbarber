@@ -1,12 +1,8 @@
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
-import type { Metadata } from 'next';
-import {
-  JetBrains_Mono as JetBrainsMono,
-  Outfit,
-  Plus_Jakarta_Sans as PlusJakartaSans,
-} from 'next/font/google';
-import type { ReactElement, ReactNode } from 'react';
+import type { Metadata, Viewport } from 'next';
+import { Outfit, Plus_Jakarta_Sans as PlusJakartaSans } from 'next/font/google';
+import type { CSSProperties, ReactElement, ReactNode } from 'react';
 import { Toaster } from 'sonner';
 import { ServiceWorkerRegistration } from '~/components';
 import { Footer, Header } from '~/components/layout';
@@ -24,12 +20,7 @@ const outfit = Outfit({
   subsets: ['latin'],
 });
 
-const jetBrainsMono = JetBrainsMono({
-  variable: '--font-jetbrains-mono',
-  subsets: ['latin'],
-});
-
-const { pageTitle, description, language } = config;
+const { pageTitle, description, language, theme } = config;
 
 export const metadata: Metadata = {
   metadataBase: new URL(environment.BASE_URL),
@@ -37,17 +28,30 @@ export const metadata: Metadata = {
   description,
 };
 
+export const viewport: Viewport = {
+  themeColor: theme.background,
+  colorScheme: 'dark',
+};
+
+const toasterStyle = {
+  '--normal-bg': 'var(--popover)',
+  '--normal-text': 'var(--popover-foreground)',
+  '--normal-border': 'var(--border)',
+  '--border-radius': 'calc(var(--radius) * 1.4)',
+  fontFamily: 'var(--font-plus-jakarta-sans)',
+} as CSSProperties;
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: ReactNode }>): ReactElement {
   return (
     <html
       lang={language}
-      className={`${plusJakartaSans.variable} ${outfit.variable} ${jetBrainsMono.variable} h-full scroll-smooth antialiased`}
+      className={`${plusJakartaSans.variable} ${outfit.variable} h-full scroll-smooth antialiased`}
     >
       <body className="bg-coffee-950 text-cream selection:bg-brand-cognac/30 min-h-full font-sans selection:text-white">
-        <div className="border-coffee-700/60 bg-coffee-900 warm-glow relative mx-auto flex min-h-screen w-full flex-col items-center border-x px-5 pt-6 pb-10">
-          <div className="max-w-md">
+        <div className="warm-glow relative flex min-h-screen w-full flex-col items-center px-5 pt-6 pb-10">
+          <div className="relative flex w-full max-w-md flex-1 flex-col">
             <Header />
 
             {children}
@@ -56,7 +60,7 @@ export default function RootLayout({
           </div>
         </div>
 
-        <Toaster />
+        <Toaster style={toasterStyle} theme="dark" />
 
         {environment.NODE_ENV === 'production' && <ServiceWorkerRegistration />}
 

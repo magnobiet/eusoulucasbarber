@@ -1,4 +1,5 @@
 export * from './Channels';
+export * from './DeveloperSignature';
 export * from './Footer';
 export * from './Header';
 export * from './OperatingHours';

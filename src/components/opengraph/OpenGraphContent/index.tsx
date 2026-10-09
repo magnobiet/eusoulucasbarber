@@ -18,7 +18,7 @@ export function OpenGraphContent({
         padding: 52,
         background: `linear-gradient(135deg, ${context.colors.backgroundStart} 0%, ${context.colors.backgroundEnd} 100%)`,
         color: context.colors.text,
-        fontFamily: 'Inter',
+        fontFamily: 'Outfit',
       }}
     >
       {context.eyebrow && <HeaderBlock context={context} />}

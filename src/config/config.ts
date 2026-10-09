@@ -1,11 +1,27 @@
 import { ConfigSchema, type Config } from './schema';
 
+const bio =
+  'Corte de cabelo, barba e visagismo masculino. Atendimento com hora marcada.';
+const street = 'Av. Rio Branco, 588 - Rio Branco';
+
 const data: Config = {
   language: 'pt-BR',
   pageTitle: 'Lucas Xavier | Barbeiro',
   shortTitle: 'Lucas Xavier',
   description:
     'Corte de cabelo, barba e visagismo masculino em Caxias do Sul. Atendimento com hora marcada.',
+  tagline: 'Barbeiro em Caxias do Sul',
+  bio,
+  booking: {
+    label: 'Agendar horário',
+    message:
+      'Olá Lucas! Gostaria de consultar a disponibilidade para um agendamento.',
+  },
+  location: {
+    label: street,
+    mapsUrl: 'https://maps.app.goo.gl/krQih7gZrjmCiw2SA',
+  },
+  openingHours: 'Segunda a Sábado das 09h às 20h',
   theme: {
     background: '#140f0c',
     foreground: '#f1ede8',
@@ -16,7 +32,7 @@ const data: Config = {
       {
         platform: 'whatsapp',
         url: 'https://api.whatsapp.com/send?phone=5554991909175',
-        handle: '+55 54 99190-9175',
+        handle: '(54) 9 9190-9175',
       },
       {
         platform: 'instagram',
@@ -33,12 +49,12 @@ const data: Config = {
     title: 'Barbeiro',
     phone: '+5554991909175',
     phoneType: ['cell', 'voice'],
-    street: 'R. Cristiano Ramos de Oliveira, 407 - Loja 3',
+    street,
     city: 'Caxias do Sul',
     region: 'RS',
     country: 'Brasil',
     url: 'https://instagram.com/eusoulucasbarber',
-    note: 'Corte de cabelo, barba e visagismo masculino. Atendimento com hora marcada.',
+    note: bio,
   },
   opengraph: {
     eyebrow: 'Barbeiro',

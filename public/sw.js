@@ -33,6 +33,24 @@ globalThis.addEventListener('fetch', (event) => {
     return;
   }
 
+  if (request.mode === 'navigate') {
+    event.respondWith(fetch(request).then((response) => {
+      if (response.status === 200 && response.type === 'basic') {
+        const responseToCache = response.clone();
+
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(request, responseToCache);
+        });
+      }
+
+      return response;
+    }).catch(() => caches.match(request).then((response) => {
+      return response || caches.match('/');
+    })));
+
+    return;
+  }
+
   event.respondWith(caches.match(request).then((response) => {
     return response || fetch(request).then((response) => {
       if (!response || response.status !== 200 || response.type !== 'basic') {

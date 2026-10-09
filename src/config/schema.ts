@@ -31,6 +31,8 @@ const SocialNetworkSchema = z.object({
   handle: z.string(),
 });
 
+export type SocialNetwork = z.infer<typeof SocialNetworkSchema>;
+
 const PhoneSchema = z.string().regex(PHONE_REGEX).optional();
 const EmailSchema = z.email().optional();
 const SocialNetworksSchema = z.array(SocialNetworkSchema).optional();
@@ -141,6 +143,16 @@ const OpenGraphSchema = z.object({
   }),
 });
 
+const BookingSchema = z.object({
+  label: z.string().min(1).max(30),
+  message: z.string().min(1).max(300),
+});
+
+const LocationSchema = z.object({
+  label: z.string().min(1).max(80),
+  mapsUrl: z.url(),
+});
+
 const LanguageSchema = z.string().regex(LANGUAGE_REGEX);
 const PageTitleSchema = z.string().min(1).max(45);
 const ShortTitleSchema = z.string().min(1).max(12);
@@ -154,6 +166,11 @@ export const ConfigSchema = z.object({
   pageTitle: PageTitleSchema,
   shortTitle: ShortTitleSchema,
   description: z.string().min(1).max(300),
+  tagline: z.string().min(1).max(60),
+  bio: z.string().min(1).max(160),
+  booking: BookingSchema,
+  location: LocationSchema,
+  openingHours: z.string().min(1).max(80),
   theme: ThemeSchema,
   contact: ContactSchema.optional(),
   address: AddressSchema.optional(),
